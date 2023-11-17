@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { ActivityIndicator, FlatList, Text, View, Button } from 'react-native';
-//import Axios from 'axios';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import Logo from '../Cosas varias/loguito';
 
@@ -23,6 +20,8 @@ const HomeScreen = () =>{
         <Text>  </Text>
         <Text style={{color: '#ffffff', fontSize: 35}}>H D O</Text>
         <Text> </Text>
+        <Text style={{color: '#ffffff', fontSize: 20}}>Bienvenidos a nuestra aplicacion</Text>
+        <Text>  </Text>
         <Button title="Eventos" onPress={handleClick}/>
         <Text> </Text>
         <Button title="Calendario" onPress={Click}/>
@@ -30,5 +29,3 @@ const HomeScreen = () =>{
     );
 }
 export default HomeScreen
-
-//https://stackoverflow.com/questions/61091258/fetching-data-with-axios-and-rendering-flatlist  

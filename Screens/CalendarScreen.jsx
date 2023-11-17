@@ -24,7 +24,7 @@ const CalendarScreen = () => {
 
     const startDate = new Date();
     const endDate = new Date();
-    endDate.setMonth(endDate.getMonth() + 1); // Load events for the next month
+    endDate.setMonth(endDate.getMonth() + 1); 
 
     const events = await ExpoCalendar.getEventsAsync(
       [defaultCalendar.id],
@@ -59,7 +59,7 @@ const CalendarScreen = () => {
     const eventsForDay = events[selectedDate] || [];
     return eventsForDay.map(renderEvent);
   };
-//style={{flex: 1, alignItems: 'center', backgroundColor: '#0023bf'}}
+
   return (
     <View style={styles.calendar  }>
       <Text> </Text>
