@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from 'react-native-web';
 import axios from 'axios';
+import añadirEventos from './AñadirEvento';
 import { useRoute } from '@react-navigation/native';
 
 const DetalleEvento = () => {

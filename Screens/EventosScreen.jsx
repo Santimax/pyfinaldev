@@ -2,15 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator, FlatList, SafeAreaView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import añadirEventos from './AñadirEvento';
 
 const EventosScreen = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigationHook = useNavigation();
+    const navigation = useNavigation();    
+    const Click = () => {    
+        console.log('boton');
+        navigationHook.navigate('Detalles')  
+    };
 
-    const baseURL = 'http://a-phz2-cidi-045:3000/API/eventos';
-
+    const baseURL = 'http://A-PHZ2-AMI-003:3000/API/eventos';
+    //A-PHZ2-AMI-004
+    //a-phz2-cidi-045
     useEffect(() => {
         const fetchData = async () => {
         try {
@@ -32,6 +39,7 @@ const EventosScreen = () => {
     };
 
     const renderItem = ({ item }) => (
+        console.log(item),
         <View
         style={{
             padding: 10,
@@ -53,12 +61,6 @@ const EventosScreen = () => {
             </View>
         )}
 
-        {error && (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>An error occurred</Text>
-            </View>
-        )}
-
         {!loading && !error && (
             <FlatList
             data={data}
@@ -66,6 +68,12 @@ const EventosScreen = () => {
             keyExtractor={item => item.idEvento.toString()}
             />
         )}
+        <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={item => item.idEvento.toString()}
+            />
+        <Button title="Más detalles" onPress={Click}/>
         </SafeAreaView>
     );
     };
