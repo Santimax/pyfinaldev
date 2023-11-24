@@ -14,6 +14,11 @@ const HomeScreen = () =>{
         console.log('boton');
         navigationHook.navigate('Calendario')  
     };
+    const navigate = useNavigation();    
+    const Clicker = () => {    
+        console.log('boton');
+        navigationHook.navigate('Janij')  
+    };
     return (
         <View style={{flex: 1, alignItems: 'center', backgroundColor: '#0023bf'}}>
         <Logo/>
@@ -25,6 +30,8 @@ const HomeScreen = () =>{
         <Button title="Eventos" onPress={handleClick}/>
         <Text> </Text>
         <Button title="Calendario" onPress={Click}/>
+        <Text> </Text>
+        <Button title="Janij" onPress={Clicker}/>
         </View>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { Calendar, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import { Calendar as ExpoCalendar, Permissions } from 'expo';
 
 const CalendarScreen = () => {
@@ -8,41 +8,47 @@ const CalendarScreen = () => {
   const [events, setEvents] = useState({});
   const [selectedDate, setSelectedDate] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Permissions.askAsync(Permissions.CALENDAR);
-      setCalendarPermission(status === 'granted');
-      if (status === 'granted') {
-        loadCalendarEvents();
-      }
-    })();
-  }, []);
+  const requestCalendarPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CALENDAR);
+    setCalendarPermission(status === 'granted');
+    if (status === 'granted') {
+      loadCalendarEvents();
+    }
+  };
 
   const loadCalendarEvents = async () => {
-    const calendars = await ExpoCalendar.getCalendarsAsync();
-    const defaultCalendar = calendars.find((cal) => cal.isPrimary);
+    try {
+      const calendars = await ExpoCalendar.getCalendarsAsync();
+      const defaultCalendar = calendars.find((cal) => cal.isPrimary);
 
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setMonth(endDate.getMonth() + 1); 
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setMonth(endDate.getMonth() + 1);
 
-    const events = await ExpoCalendar.getEventsAsync(
-      [defaultCalendar.id],
-      startDate,
-      endDate
-    );
+      const events = await ExpoCalendar.getEventsAsync(
+        [defaultCalendar.id],
+        startDate,
+        endDate
+      );
 
-    const formattedEvents = {};
-    events.forEach((event) => {
-      const date = event.startDate.split('T')[0];
-      if (!formattedEvents[date]) {
-        formattedEvents[date] = [];
-      }
-      formattedEvents[date].push(event);
-    });
+      const formattedEvents = {};
+      events.forEach((event) => {
+        const date = event.startDate.split('T')[0];
+        if (!formattedEvents[date]) {
+          formattedEvents[date] = [];
+        }
+        formattedEvents[date].push(event);
+      });
 
-    setEvents(formattedEvents);
+      setEvents(formattedEvents);
+    } catch (error) {
+      console.error('Error loading calendar events:', error);
+    }
   };
+
+  useEffect(() => {
+    requestCalendarPermission();
+  }, []);
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
@@ -61,7 +67,7 @@ const CalendarScreen = () => {
   };
 
   return (
-    <View style={styles.calendar  }>
+    <View style={styles.calendar}>
       <Text> </Text>
       <Calendar onDayPress={handleDayPress} />
       {selectedDate !== '' && (
@@ -79,18 +85,19 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 30,
   },
-  calendar:{
+  calendar: {
     flex: 1,
     marginTop: 30,
-    backgroundColor: '#0023bf'
+    backgroundColor: '#0023bf',
   },
-    eventsContainer: {
+  eventsContainer: {
     marginTop: 20,
     paddingHorizontal: 20,
   },
   selectedDateText: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'white',
   },
   eventContainer: {
     paddingVertical: 10,

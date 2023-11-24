@@ -6,6 +6,7 @@ import HomeScreen from './Screens/HomeScreen';
 import Eventscreen from './Screens/eventscreen';
 import DetalleEvento from './Screens/DetalleEvento';
 import CalendarScreen from './Screens/CalendarScreen'
+import PeopleList from './Screens/PErsonasScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Screen name="Eventos" component={Eventscreen} />
         <Stack.Screen name="Detalles" component={DetalleEvento} />
         <Stack.Screen name="Calendario" component={CalendarScreen} />
+        <Stack.Screen name="Janij" component={PeopleList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
