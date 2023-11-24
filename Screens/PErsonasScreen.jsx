@@ -42,11 +42,11 @@ const PeopleList = () => {
     }
   };
 
-  const handleCheckboxChange = (personId) => {
+  const handleCheckboxChange = (personId, isChecked) => {
     setPeople((prevPeople) =>
       prevPeople.map((person) =>
         person.id === personId
-          ? { ...person, isChecked: !person.isChecked, count: person.count + 1 }
+          ? { ...person, isChecked, count: isChecked ? person.count + 1 : person.count }
           : person
       )
     );
@@ -61,7 +61,7 @@ const PeopleList = () => {
       <Text style={{ color: 'white', flex: 1 }}>{item.name}</Text>
       <CheckBox
         checked={item.isChecked}
-        onPress={() => handleCheckboxChange(item.id)}
+        onPress={() => handleCheckboxChange(item.id, !item.isChecked)}
         containerStyle={{ marginRight: 0, marginLeft: 0 }} // Center the checkbox
       />
       <Text style={{ color: 'white' }}>Asistencia: {item.count}</Text>
