@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
 const tiposDeEvento = [
   { id: 1, nombre: 'Asefa' },
@@ -9,23 +9,44 @@ const tiposDeEvento = [
 ];
 
 const eventosData = [
-  { id: 1, nombre: 'Clalit', descripcion: 'Clalit como siempre', fecha: '2023-11-24', tipo: 1},
+  { id: 1, nombre: 'Clalit', descripcion: 'Clalit como siempre', fecha: '2023-11-24', tipo: 1 },
   { id: 2, nombre: 'Peula', descripcion: 'Sabado de peula normalito', fecha: '2023-11-25', tipo: 3 },
-  { id: 3, nombre: 'Iom Hajaver', descripcion: 'Iom hajaver woo', fecha: '2023-11-27', tipo: 4},
-  { id: 4, nombre: 'Asefa de Tzevet', descripcion: 'Para armar el nuevo modulo', fecha: '2023-11-28', tipo: 1},
+  { id: 3, nombre: 'Iom Hajaver', descripcion: 'Iom hajaver woo', fecha: '2023-11-27', tipo: 4 },
+  { id: 4, nombre: 'Asefa de Tzevet', descripcion: 'Para armar el nuevo modulo', fecha: '2023-11-28', tipo: 1 },
   { id: 5, nombre: 'Peula', descripcion: 'Viernes de peula normalito', fecha: '2023-12-01', tipo: 3 },
   { id: 6, nombre: 'Peula', descripcion: 'Sabado de peula normalito', fecha: '2023-12-02', tipo: 3 },
 ];
 
 const EventList = () => {
+  const [expandedItems, setExpandedItems] = useState([]);
+
+  const toggleExpand = (eventId) => {
+    setExpandedItems((prevExpandedItems) => {
+      if (prevExpandedItems.includes(eventId)) {
+        // Si ya estaba expandido, lo contraemos
+        return prevExpandedItems.filter((id) => id !== eventId);
+      } else {
+        // Si no estaba expandido, lo expandimos
+        return [...prevExpandedItems, eventId];
+      }
+    });
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => toggleExpand(item.id)}
+    >
       <Text style={styles.textoBlanco}>ID: {item.id}</Text>
       <Text style={styles.textoBlanco}>Nombre: {item.nombre}</Text>
-      <Text style={styles.textoBlanco}>Descripción: {item.descripcion}</Text>
       <Text style={styles.textoBlanco}>Fecha: {item.fecha}</Text>
-      <Text style={styles.textoBlanco}>Tipo: {tiposDeEvento.find((tipo) => tipo.id === item.tipo).nombre}</Text>
-    </View>
+      {expandedItems.includes(item.id) && (
+        <>
+          <Text style={styles.textoBlanco}>Tipo: {tiposDeEvento.find((tipo) => tipo.id === item.tipo).nombre}</Text>
+          <Text style={styles.textoBlanco}>Descripción: {item.descripcion}</Text>
+        </>
+      )}
+    </TouchableOpacity>
   );
 
   return (
@@ -55,6 +76,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     marginBottom: 16,
+    paddingVertical: 8,
   },
   textoBlanco: {
     color: '#fff',
