@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Calendar as ExpoCalendar, Permissions } from 'expo';
+import eventosData from '../Cosas varias/eventosData';
+
+const tiposDeEvento = [
+  { id: 1, nombre: 'Asefa' },
+  { id: 2, nombre: 'Actos' },
+  { id: 3, nombre: 'Peula' },
+  { id: 4, nombre: 'Evento especial' },
+];
 
 const CalendarScreen = () => {
   const [calendarPermission, setCalendarPermission] = useState(false);
@@ -54,22 +62,39 @@ const CalendarScreen = () => {
     setSelectedDate(day.dateString);
   };
 
-  const renderEvent = (event) => (
-    <TouchableOpacity key={event.id} style={styles.eventContainer}>
-      <Text>{event.title}</Text>
-      <Text>{event.startDate.split('T')[1]}</Text>
-    </TouchableOpacity>
-  );
+  const renderEvent = (event) => {
+    console.log('Event Data:', event);
+    
+    return (
+      <TouchableOpacity key={event.id} style={styles.eventContainer}>
+        <Text style={styles.textoBlanco}>{event.nombre}</Text>
+        <Text style={styles.textoBlanco}>{event.descripcion}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   const renderEventsForDay = () => {
-    const eventsForDay = events[selectedDate] || [];
-    return eventsForDay.map(renderEvent);
+    const eventsFromCalendar = events[selectedDate] || [];
+    
+    const eventsFromData = eventosData.filter((event) => event.fecha === selectedDate);
+
+    const allEvents = [...eventsFromCalendar, ...eventsFromData];
+
+    return allEvents.map(renderEvent);
   };
+
+  const markedDates = {};
+  eventosData.forEach((event) => {
+    markedDates[event.fecha] = { marked: true };
+  });
 
   return (
     <View style={styles.calendar}>
       <Text> </Text>
-      <Calendar onDayPress={handleDayPress} />
+      <Calendar
+        onDayPress={handleDayPress}
+        markedDates={markedDates}
+      />
       {selectedDate !== '' && (
         <View style={styles.eventsContainer}>
           <Text style={styles.selectedDateText}>{selectedDate}</Text>
@@ -103,6 +128,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  textoBlanco: {
+    color: 'white',
   },
 });
 

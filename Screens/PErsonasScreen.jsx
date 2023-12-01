@@ -9,6 +9,7 @@ const PeopleList = () => {
     { id: 2, name: 'Leo', isChecked: false, count: 0 },
     { id: 3, name: 'Polshu', isChecked: false, count: 0 },
     { id: 4, name: 'Matias', isChecked: false, count: 0 },
+    { id: 5, name: 'Damian', isChecked: false, count: 0 },
   ]);
 
   useEffect(() => {
