@@ -1,39 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Logo from '../Cosas varias/loguito';
-
-// Array de noticias
-const noticiasData = [
-  {
-    id: 1,
-    titulo: 'Título de la Noticia 1',
-    descripcion: 'Descripción corta de la Noticia 1',
-    imagen: 'URL_DE_LA_IMAGEN_1',
-  },
-  {
-    id: 2,
-    titulo: 'Título de la Noticia 2',
-    descripcion: 'Descripción corta de la Noticia 2',
-    imagen: 'URL_DE_LA_IMAGEN_2',
-  },
-  // ... más noticias
-];
+import noticiasData from '../Cosas varias/noticiasData';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
-
-  const handleVerNoticia = (noticia) => {
-    // Puedes navegar a la pantalla de detalles de la noticia con la información de la noticia
-    navigation.navigate('DetalleNoticia', { noticia });
+  const [expandedNoticiaId, setExpandedNoticiaId] = useState(null);
+  const handleToggleExpansion = (noticiaId) => {
+    setExpandedNoticiaId((prevId) => (prevId === noticiaId ? null : noticiaId));
   };
 
-  // Función para renderizar cada elemento de la lista de noticias
   const renderNoticiaItem = ({ item }) => (
-    <TouchableOpacity style={styles.noticiaItem} onPress={() => handleVerNoticia(item)}>
+    <TouchableOpacity
+      style={styles.noticiaItem}
+      onPress={() => handleToggleExpansion(item.id)}
+    >
       <Image source={{ uri: item.imagen }} style={styles.noticiaImagen} />
       <Text style={styles.noticiaTitulo}>{item.titulo}</Text>
-      <Text style={styles.noticiaDescripcion}>{item.descripcion}</Text>
+      <Text style={styles.noticiaDescripcion}>
+        {expandedNoticiaId === item.id ? item.texto : item.descripcion}
+      </Text>
     </TouchableOpacity>
   );
 

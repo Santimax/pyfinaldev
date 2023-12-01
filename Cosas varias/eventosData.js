@@ -1,3 +1,4 @@
+
 const eventosData = [
     { id: 1, nombre: 'Clalit', descripcion: 'Clalit como siempre', fecha: '2023-11-24', tipo: 1 },
     { id: 2, nombre: 'Peula', descripcion: 'Sabado de peula normalito', fecha: '2023-11-25', tipo: 3 },

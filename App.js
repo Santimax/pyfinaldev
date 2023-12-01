@@ -26,8 +26,6 @@ const App = () => {
             } else if (route.name === 'Janij') {
               iconName = 'people';
             }
-
-            // Puedes personalizar los iconos aquí según tus necesidades
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
